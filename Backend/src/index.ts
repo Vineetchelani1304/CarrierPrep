@@ -85,7 +85,7 @@ app.post('/chatbot', verifyToken, async (req, res) => {
     const user_id = (req as any).user?.user_id;
     const { message } = req.body;
 
-    const { data } = await axios.post('http://localhost:5000/api/chatbot', {
+    const { data } = await axios.post('http://localhost:5000/api/chat', {
       user_id,
       message,
     });
@@ -101,16 +101,21 @@ app.post('/chatbot', verifyToken, async (req, res) => {
 app.post('/cover-letter', verifyToken, async (req, res) => {
   try {
     const user_id = (req as any).user?.user_id;
-    const { jobDescription } = req.body;
+    const { jobDescription, candidateInfo } = req.body;
+
+    if (!jobDescription || !candidateInfo) {
+      return res.status(400).json({ message: 'Missing jobDescription or candidateInfo' });
+    }
 
     const { data } = await axios.post('http://localhost:5000/api/cover-letter', {
       user_id,
-      jobDescription,
+      job_description: jobDescription,
+      candidate_info: candidateInfo,
     });
 
     res.json(data);
   } catch (err) {
-    console.error(err);
+    console.error('Cover Letter API error:', err);
     res.status(500).json({ message: 'Error generating cover letter' });
   }
 });

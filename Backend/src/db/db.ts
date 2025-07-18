@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/carriesgenie';
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/carrierGenie';
 
 export const connectDB = async (): Promise<void> => {
   try {
